@@ -13,109 +13,68 @@ struct ContentView: View {
   @State private var ballY: CGFloat = 0
   @State private var ballHeight: CGFloat = 0
 
-  private let bg = Color(red: 0.06, green: 0.11, blue: 0.14)
-  private let card = Color(red: 0.12, green: 0.18, blue: 0.24)
-  private let accent = Color(red: 0.0, green: 0.83, blue: 0.67)
-  private let gold = Color(red: 0.94, green: 0.63, blue: 0.25)
-  private let homeColor = Color(red: 0.95, green: 0.25, blue: 0.2)
-  private let awayColor = Color(red: 0.2, green: 0.55, blue: 0.95)
-
   var body: some View {
-    VStack(spacing: 12) {
-      Text("⚽ Retro Football '76")
-        .font(.title2.bold())
-      Text("3D match view · 1974 / 1976")
-        .font(.caption)
-        .foregroundStyle(.secondary)
+    ScrollView {
+      VStack(spacing: 16) {
+        AppHeader()
 
-      if let error {
-        Text(error).foregroundStyle(.red).font(.caption)
-      }
+        if let error {
+          Text(error)
+            .font(.caption)
+            .foregroundStyle(GameTheme.danger)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
 
-      HStack(spacing: 12) {
-        teamPicker(title: "Home", selection: $homeId)
-        teamPicker(title: "Away", selection: $awayId)
-      }
+        HStack(spacing: 12) {
+          TeamPickerCard(title: "Home", accent: GameTheme.home, selection: $homeId, teams: teams)
+          TeamPickerCard(title: "Away", accent: GameTheme.away, selection: $awayId, teams: teams)
+        }
 
-      scoreboard
+        ScoreboardView(
+          homeName: teams.first { $0.id == homeId }?.name ?? "—",
+          awayName: teams.first { $0.id == awayId }?.name ?? "—",
+          homeScore: homeScore,
+          awayScore: awayScore
+        )
 
-      Pitch3DSceneView(
-        homeColor: NSColor(red: 0.95, green: 0.25, blue: 0.2, alpha: 1),
-        awayColor: NSColor(red: 0.2, green: 0.55, blue: 0.95, alpha: 1),
-        ballX: ballX,
-        ballY: ballY,
-        ballHeight: ballHeight
-      )
-      .frame(height: 260)
-      .background(card)
-      .clipShape(RoundedRectangle(cornerRadius: 10))
+        PitchFrame(ballX: ballX, ballY: ballY, ballHeight: ballHeight)
 
-      ScrollViewReader { proxy in
-        ScrollView {
-          LazyVStack(alignment: .leading, spacing: 6) {
-            ForEach(events) { e in
-              HStack(alignment: .top, spacing: 8) {
-                Text(String(format: "%2d'", e.minute))
-                  .font(.caption.monospacedDigit())
-                  .foregroundStyle(.secondary)
-                  .frame(width: 28, alignment: .leading)
-                Text(e.text)
-                  .font(.system(size: 13))
-                  .foregroundStyle(e.isGoal ? accent : e.isHalf ? gold : .primary)
-              }
-              .id(e.id)
+        EventLogView(events: events)
+
+        Button(action: playMatch) {
+          HStack(spacing: 8) {
+            Image(systemName: playing ? "hourglass" : "play.fill")
+            Text(playing ? "Match in progress…" : events.isEmpty ? "Kick Off" : "Play Again")
+            if !playing && canPlay {
+              Text("␣")
+                .font(.system(size: 11, weight: .bold, design: .monospaced))
+                .foregroundStyle(Color.black.opacity(0.45))
             }
           }
-          .padding(12)
         }
-        .frame(height: 140)
-        .background(Color.black.opacity(0.35))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .onChange(of: events.count) { _, _ in
-          if let last = events.last {
-            withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
-          }
-        }
-      }
+        .buttonStyle(PrimaryButtonStyle(disabled: !canPlay))
+        .disabled(!canPlay)
 
-      Button(action: playMatch) {
-        Text(playing ? "Playing…" : events.isEmpty ? "▶ Play Match" : "▶ Play Again")
-          .font(.headline)
-          .frame(maxWidth: .infinity)
-          .padding(.vertical, 12)
+        KeyboardHintsBar()
       }
-      .buttonStyle(.borderedProminent)
-      .tint(accent)
-      .disabled(playing || teams.isEmpty || homeId == awayId)
+      .padding(20)
     }
-    .padding(24)
-    .frame(minWidth: 520, minHeight: 680)
-    .background(bg)
+    .frame(minWidth: 560, minHeight: 760)
+    .background(GameTheme.background)
+    .focusable()
+    .keyboardControls(
+      teams: teams,
+      homeId: $homeId,
+      awayId: $awayId,
+      playing: playing,
+      canPlay: canPlay,
+      onPlay: playMatch
+    )
     .task { loadTeams() }
   }
 
-  private func teamPicker(title: String, selection: Binding<String>) -> some View {
-    VStack(alignment: .leading, spacing: 4) {
-      Text(title).font(.caption).foregroundStyle(.secondary)
-      Picker(title, selection: selection) {
-        ForEach(teams) { t in
-          Text("\(t.name) (\(t.year)").tag(t.id)
-        }
-      }
-      .labelsHidden()
-    }
-  }
-
-  private var scoreboard: some View {
-    let home = teams.first { $0.id == homeId }
-    let away = teams.first { $0.id == awayId }
-    return Text("\(home?.name ?? "—")  \(homeScore)  –  \(awayScore)  \(away?.name ?? "—")")
-      .font(.title3.bold())
-      .multilineTextAlignment(.center)
-      .padding(.vertical, 10)
-      .frame(maxWidth: .infinity)
-      .background(card)
-      .clipShape(RoundedRectangle(cornerRadius: 8))
+  private var canPlay: Bool {
+    !teams.isEmpty && !playing && homeId != awayId
   }
 
   private func loadTeams() {
@@ -143,7 +102,9 @@ struct ContentView: View {
     Task {
       for event in result.events {
         try? await Task.sleep(for: .milliseconds(450))
-        events.append(event)
+        withAnimation(.easeOut(duration: 0.2)) {
+          events.append(event)
+        }
         await animateBall(toX: event.pitchX, toY: event.pitchY, isGoal: event.isGoal)
         if event.text.hasPrefix("GOAL!") || event.minute == 90 {
           if let score = event.text.range(of: #"\d+-\d+"#, options: .regularExpression) {
@@ -168,9 +129,8 @@ struct ContentView: View {
     let startY = ballY
     for i in 1...steps {
       let t = CGFloat(i) / CGFloat(steps)
-      let eased = t
-      ballX = startX + (toX - startX) * eased
-      ballY = startY + (toY - startY) * eased
+      ballX = startX + (toX - startX) * t
+      ballY = startY + (toY - startY) * t
       ballHeight = sin(t * .pi) * peak
       try? await Task.sleep(for: .milliseconds(25))
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using RetroFootball76.Core;
 using RetroFootball76.Data;
+using RetroFootball76.Platform;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -18,8 +19,29 @@ namespace RetroFootball76.UI
 
         List<TeamData> _teams = new();
 
-        void Start()
+        public void Wire(
+            TMP_Dropdown home, TMP_Dropdown away,
+            TMP_Text homeStats, TMP_Text awayStats,
+            Button start, Button back)
         {
+            homeDropdown = home;
+            awayDropdown = away;
+            homeStatsText = homeStats;
+            awayStatsText = awayStats;
+            startButton = start;
+            backButton = back;
+            Init();
+        }
+
+        void Start() => Init();
+
+        bool _ready;
+
+        void Init()
+        {
+            if (_ready) return;
+            _ready = true;
+
             var db = HistoricalDatabase.Instance;
             if (db == null)
             {
@@ -44,6 +66,36 @@ namespace RetroFootball76.UI
                 backButton.onClick.AddListener(() => GameBootstrap.LoadScene(GameConstants.SceneMainMenu));
 
             RefreshStats();
+        }
+
+        void Update()
+        {
+            var input = InputRouter.Instance;
+            if (input == null || _teams.Count == 0) return;
+
+            if (input.ConfirmPressed && startButton != null)
+                startButton.onClick.Invoke();
+            if (input.BackPressed)
+                GameBootstrap.LoadScene(GameConstants.SceneMainMenu);
+
+            if (input.HorizontalAxis != 0 && homeDropdown != null)
+            {
+                CycleDropdown(homeDropdown, input.HorizontalAxis);
+                RefreshStats();
+            }
+            if (input.VerticalAxis != 0 && awayDropdown != null)
+            {
+                CycleDropdown(awayDropdown, input.VerticalAxis);
+                RefreshStats();
+            }
+        }
+
+        static void CycleDropdown(TMP_Dropdown dropdown, int delta)
+        {
+            var count = dropdown.options.Count;
+            if (count == 0) return;
+            dropdown.value = (dropdown.value + delta + count) % count;
+            dropdown.RefreshShownValue();
         }
 
         static void SetupDropdown(TMP_Dropdown dropdown, List<TMP_Dropdown.OptionData> options, int defaultIndex)

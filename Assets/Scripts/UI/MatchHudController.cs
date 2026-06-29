@@ -1,5 +1,6 @@
 using RetroFootball76.Core;
 using RetroFootball76.Match;
+using RetroFootball76.Platform;
 using UnityEngine;
 using TMPro;
 
@@ -41,6 +42,14 @@ namespace RetroFootball76.UI
         {
             if (logText == null) return;
             logText.text = string.IsNullOrEmpty(logText.text) ? line : logText.text + "\n" + line;
+        }
+
+        void Update()
+        {
+            var input = InputRouter.Instance;
+            if (input == null) return;
+            if (input.BackPressed)
+                GameBootstrap.LoadScene(GameConstants.SceneMainMenu);
         }
     }
 }
