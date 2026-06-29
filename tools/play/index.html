@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Retro Football '76 — Play</title>
+  <style>
+    :root {
+      --bg: #0f1923; --card: #1e2d3d; --border: #2a3f54;
+      --text: #e8edf2; --muted: #8899aa; --accent: #00d4aa; --gold: #f0a040;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 24px;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .panel {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; width: min(520px, 100%);
+    }
+    .row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    label { font-size: 0.75rem; color: var(--muted); display: block; margin-bottom: 4px; }
+    select {
+      flex: 1; min-width: 140px; padding: 10px; border-radius: 8px;
+      border: 1px solid var(--border); background: #1a2736; color: var(--text);
+    }
+    .scoreboard {
+      text-align: center; font-size: 1.8rem; font-weight: 700;
+      padding: 16px; margin: 16px 0; background: #1a2736; border-radius: 8px;
+    }
+    .scoreboard span { color: var(--accent); }
+    .log {
+      height: 280px; overflow-y: auto; font-size: 0.85rem;
+      background: #0a1219; border-radius: 8px; padding: 12px; line-height: 1.6;
+    }
+    .log .goal { color: var(--accent); font-weight: 700; }
+    .log .ht { color: var(--gold); }
+    .btn {
+      width: 100%; padding: 14px; margin-top: 12px; border: none; border-radius: 8px;
+      background: var(--accent); color: #000; font-weight: 700; font-size: 1rem;
+      cursor: pointer;
+    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn:hover:not(:disabled) { filter: brightness(1.1); }
+    .minute { color: var(--muted); font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <h1>⚽ Retro Football '76</h1>
+  <p class="sub">1974 World Cup · 1976 Euro — pick teams and play</p>
+
+  <div class="panel">
+    <div class="row">
+      <div style="flex:1">
+        <label>Home</label>
+        <select id="home"></select>
+      </div>
+      <div style="flex:1">
+        <label>Away</label>
+        <select id="away"></select>
+      </div>
+    </div>
+    <div class="scoreboard" id="score">— vs —</div>
+    <div class="log" id="log"></div>
+    <button class="btn" id="playBtn">▶ Play Match</button>
+  </div>
+
+  <script>
+    const PHASES = 24, SQUAD = 5;
+    let teams = [], timer = null, events = [], idx = 0;
+
+    async function init() {
+      const r = await fetch('/Assets/StreamingAssets/Historical/teams.json');
+      const data = await r.json();
+      teams = data.teams;
+      const opts = teams.map(t => `<option value="${t.id}">${t.name} (${t.year})</option>`).join('');
+      home.innerHTML = away.innerHTML = opts;
+      home.value = 'ned1974';
+      away.value = 'frg1974';
+      updateScore(0, 0, 'Press Play');
+    }
+
+    function power(team, sw, pw, dw) {
+      const s = team.players.slice(0, SQUAD);
+      return s.reduce((a, p) => a + p.shoot*sw + p.pass*pw + p.defend*dw + p.pace*0.1, 0) / s.length;
+    }
+    function pick(team, shoot) {
+      return [...team.players].slice(0, SQUAD).sort((a,b) => (shoot ? b.shoot-a.shoot : b.pass-a.pass))[0];
+    }
+
+    function simulate(home, away, seed) {
+      let rng = seed, hs = 0, as = 0;
+      const rand = () => { rng = (rng*1103515245+12345)&0x7fffffff; return rng/0x7fffffff; };
+      const ev = [{ minute: 0, text: `${home.name} vs ${away.name} — kickoff!`, cls: '' }];
+      for (let ph = 0; ph < PHASES; ph++) {
+        const min = Math.min(90, Math.floor(((ph+1)/PHASES)*90));
+        if (ph === PHASES/2) ev.push({ minute: min, text: 'Half time.', cls: 'ht' });
+        const atk = rand()>0.5 ? home : away, def = atk.id===home.id ? away : home;
+        const roll = rand() * (power(atk,.45,.35,.2) + power(def,.15,.25,.6));
+        const a = power(atk,.45,.35,.2), shooter = pick(atk, true);
+        if (roll < a*0.12) {
+          if (atk.id===home.id) hs++; else as++;
+          ev.push({ minute: min, text: `GOAL! ${shooter.name} (${atk.name}) ${hs}-${as}`, cls: 'goal', hs, as });
+        } else if (roll < a*0.35) {
+          ev.push({ minute: min, text: `${shooter.name} shoots — saved!`, cls: '' });
+        } else if (roll < a*0.55) {
+          ev.push({ minute: min, text: `${def.name} win the ball.`, cls: '' });
+        } else {
+          ev.push({ minute: min, text: `${shooter.name} — shot wide.`, cls: '' });
+        }
+      }
+      ev.push({ minute: 90, text: `Full time: ${home.name} ${hs} - ${as} ${away.name}`, cls: 'goal', hs, as });
+      return { ev, hs, as };
+    }
+
+    function updateScore(hs, as, label) {
+      const h = teams.find(t => t.id === home.value);
+      const a = teams.find(t => t.id === away.value);
+      score.innerHTML = label || `${h.name} <span>${hs}</span> – <span>${as}</span> ${a.name}`;
+    }
+
+    function appendLine(e) {
+      const div = document.createElement('div');
+      div.className = e.cls;
+      div.innerHTML = `<span class="minute">[${String(e.minute).padStart(2)}']</span> ${e.text}`;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+      if (e.hs !== undefined) updateScore(e.hs, e.as);
+    }
+
+    playBtn.onclick = () => {
+      if (home.value === away.value) { alert('Pick two different teams'); return; }
+      clearInterval(timer);
+      log.innerHTML = '';
+      playBtn.disabled = true;
+      const h = teams.find(t => t.id === home.value);
+      const a = teams.find(t => t.id === away.value);
+      const { ev } = simulate(h, a, Date.now() % 99991);
+      events = ev; idx = 0;
+      updateScore(0, 0);
+      timer = setInterval(() => {
+        if (idx >= events.length) {
+          clearInterval(timer);
+          playBtn.disabled = false;
+          playBtn.textContent = '▶ Play Again';
+          return;
+        }
+        appendLine(events[idx++]);
+      }, 450);
+    };
+
+    init().catch(e => {
+      log.innerHTML = '<div style="color:#e0556a">Could not load teams. Run: python3 -m http.server 8765 from project root.</div>';
+    });
+  </script>
+</body>
+</html>
