@@ -1,0 +1,20 @@
+{
+  "tournaments": [
+    {
+      "id": "wc1974",
+      "name": "FIFA World Cup",
+      "year": 1974,
+      "hostNation": "West Germany",
+      "winner": "West Germany",
+      "runnerUp": "Netherlands"
+    },
+    {
+      "id": "ec1976",
+      "name": "UEFA European Championship",
+      "year": 1976,
+      "hostNation": "Yugoslavia",
+      "winner": "Czechoslovakia",
+      "runnerUp": "West Germany"
+    }
+  ]
+}

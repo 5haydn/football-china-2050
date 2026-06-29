@@ -1,0 +1,172 @@
+{
+  "teams": [
+    {
+      "id": "ned1974",
+      "name": "Netherlands",
+      "nationCode": "NED",
+      "year": 1974,
+      "tournamentId": "wc1974",
+      "formation": "4-3-3 Total Football",
+      "players": [
+        { "id": "cruyff", "name": "Johan Cruyff", "position": "CF", "overall": 94, "pace": 88, "shoot": 90, "pass": 95, "defend": 45, "stamina": 88 },
+        { "id": "rep", "name": "Johnny Rep", "position": "RW", "overall": 86, "pace": 92, "shoot": 82, "pass": 78, "defend": 40, "stamina": 85 },
+        { "id": "rensenbrink", "name": "Rob Rensenbrink", "position": "LW", "overall": 85, "pace": 86, "shoot": 84, "pass": 80, "defend": 38, "stamina": 82 },
+        { "id": "nedl1974_4", "name": "Johan Neeskens", "position": "CM", "overall": 87, "pace": 80, "shoot": 78, "pass": 88, "defend": 72, "stamina": 90 },
+        { "id": "nedl1974_5", "name": "Ruud Krol", "position": "CB", "overall": 84, "pace": 75, "shoot": 55, "pass": 82, "defend": 88, "stamina": 86 },
+        { "id": "nedl1974_6", "name": "Wim Jansen", "position": "CM", "overall": 80, "pace": 72, "shoot": 65, "pass": 82, "defend": 70, "stamina": 84 },
+        { "id": "nedl1974_7", "name": "Arie Haan", "position": "CM", "overall": 81, "pace": 74, "shoot": 72, "pass": 84, "defend": 68, "stamina": 85 },
+        { "id": "nedl1974_8", "name": "Wim Suurbier", "position": "RB", "overall": 79, "pace": 82, "shoot": 58, "pass": 76, "defend": 76, "stamina": 84 },
+        { "id": "nedl1974_9", "name": "Ruud Geels", "position": "ST", "overall": 78, "pace": 80, "shoot": 80, "pass": 65, "defend": 35, "stamina": 78 },
+        { "id": "nedl1974_10", "name": "Jan Jongbloed", "position": "GK", "overall": 80, "pace": 50, "shoot": 20, "pass": 55, "defend": 82, "stamina": 78 },
+        { "id": "nedl1974_11", "name": "Wim van Hanegem", "position": "CM", "overall": 83, "pace": 70, "shoot": 74, "pass": 90, "defend": 62, "stamina": 82 }
+      ]
+    },
+    {
+      "id": "frg1974",
+      "name": "West Germany",
+      "nationCode": "FRG",
+      "year": 1974,
+      "tournamentId": "wc1974",
+      "formation": "4-4-2",
+      "players": [
+        { "id": "maier", "name": "Sepp Maier", "position": "GK", "overall": 88, "pace": 52, "shoot": 18, "pass": 58, "defend": 90, "stamina": 82 },
+        { "id": "beckenbauer", "name": "Franz Beckenbauer", "position": "SW", "overall": 93, "pace": 78, "shoot": 72, "pass": 92, "defend": 90, "stamina": 88 },
+        { "id": "muller", "name": "Gerd Müller", "position": "ST", "overall": 92, "pace": 82, "shoot": 95, "pass": 68, "defend": 35, "stamina": 84 },
+        { "id": "frg1974_4", "name": "Paul Breitner", "position": "CM", "overall": 86, "pace": 80, "shoot": 82, "pass": 84, "defend": 72, "stamina": 88 },
+        { "id": "frg1974_5", "name": "Uli Hoeneß", "position": "RW", "overall": 82, "pace": 86, "shoot": 78, "pass": 76, "defend": 42, "stamina": 84 },
+        { "id": "frg1974_6", "name": "Wolfgang Overath", "position": "CM", "overall": 83, "pace": 72, "shoot": 70, "pass": 88, "defend": 65, "stamina": 82 },
+        { "id": "frg1974_7", "name": "Hans-Georg Schwarzenbeck", "position": "CB", "overall": 82, "pace": 70, "shoot": 48, "pass": 65, "defend": 88, "stamina": 86 },
+        { "id": "frg1974_8", "name": "Bernd Hölzenbein", "position": "LW", "overall": 81, "pace": 88, "shoot": 76, "pass": 72, "defend": 40, "stamina": 84 },
+        { "id": "frg1974_9", "name": "Heinz Flohe", "position": "CM", "overall": 80, "pace": 76, "shoot": 74, "pass": 80, "defend": 68, "stamina": 86 },
+        { "id": "frg1974_10", "name": "Horst-Dieter Hottges", "position": "RB", "overall": 79, "pace": 78, "shoot": 50, "pass": 68, "defend": 80, "stamina": 84 },
+        { "id": "frg1974_11", "name": "Jupp Heynckes", "position": "ST", "overall": 84, "pace": 80, "shoot": 86, "pass": 72, "defend": 38, "stamina": 80 }
+      ]
+    },
+    {
+      "id": "pol1974",
+      "name": "Poland",
+      "nationCode": "POL",
+      "year": 1974,
+      "tournamentId": "wc1974",
+      "formation": "4-4-2",
+      "players": [
+        { "id": "lato", "name": "Grzegorz Lato", "position": "RW", "overall": 86, "pace": 90, "shoot": 82, "pass": 76, "defend": 42, "stamina": 88 },
+        { "id": "dlamko", "name": "Kazimierz Deyna", "position": "CM", "overall": 88, "pace": 82, "shoot": 80, "pass": 90, "defend": 58, "stamina": 86 },
+        { "id": "gorgon", "name": "Władysław Żmuda", "position": "CB", "overall": 84, "pace": 72, "shoot": 45, "pass": 68, "defend": 88, "stamina": 84 },
+        { "id": "pol1974_4", "name": "Jan Domarski", "position": "LW", "overall": 80, "pace": 84, "shoot": 76, "pass": 72, "defend": 40, "stamina": 82 },
+        { "id": "pol1974_5", "name": "Andrzej Szarmach", "position": "ST", "overall": 82, "pace": 82, "shoot": 84, "pass": 68, "defend": 38, "stamina": 80 },
+        { "id": "pol1974_6", "name": "Henryk Kasperczak", "position": "ST", "overall": 81, "pace": 84, "shoot": 82, "pass": 70, "defend": 36, "stamina": 82 },
+        { "id": "pol1974_7", "name": "Antoni Szymanowski", "position": "LB", "overall": 78, "pace": 80, "shoot": 55, "pass": 72, "defend": 76, "stamina": 84 },
+        { "id": "pol1974_8", "name": "Jerzy Gorgoń", "position": "CB", "overall": 79, "pace": 70, "shoot": 48, "pass": 62, "defend": 84, "stamina": 82 },
+        { "id": "pol1974_9", "name": "Kazimierz Kmiecik", "position": "CM", "overall": 77, "pace": 74, "shoot": 68, "pass": 78, "defend": 65, "stamina": 82 },
+        { "id": "pol1974_10", "name": "Jan Tomaszewski", "position": "GK", "overall": 82, "pace": 48, "shoot": 18, "pass": 52, "defend": 86, "stamina": 80 },
+        { "id": "pol1974_11", "name": "Lesław Ćmikiewicz", "position": "CM", "overall": 76, "pace": 72, "shoot": 65, "pass": 76, "defend": 68, "stamina": 84 }
+      ]
+    },
+    {
+      "id": "bra1974",
+      "name": "Brazil",
+      "nationCode": "BRA",
+      "year": 1974,
+      "tournamentId": "wc1974",
+      "formation": "4-2-4",
+      "players": [
+        { "id": "jairzinho", "name": "Jairzinho", "position": "RW", "overall": 88, "pace": 90, "shoot": 86, "pass": 78, "defend": 42, "stamina": 86 },
+        { "id": "rivellino", "name": "Rivellino", "position": "LW", "overall": 87, "pace": 84, "shoot": 88, "pass": 86, "defend": 40, "stamina": 82 },
+        { "id": "bra1974_3", "name": "Rivelino", "position": "CM", "overall": 88, "pace": 82, "shoot": 88, "pass": 86, "defend": 52, "stamina": 84 },
+        { "id": "bra1974_4", "name": "Edu", "position": "CM", "overall": 82, "pace": 78, "shoot": 76, "pass": 84, "defend": 58, "stamina": 84 },
+        { "id": "bra1974_5", "name": "Paulo Cesar", "position": "LB", "overall": 80, "pace": 86, "shoot": 58, "pass": 74, "defend": 76, "stamina": 84 },
+        { "id": "bra1974_6", "name": "Luís Pereira", "position": "CB", "overall": 84, "pace": 74, "shoot": 55, "pass": 68, "defend": 88, "stamina": 84 },
+        { "id": "bra1974_7", "name": "Marinho Peres", "position": "CB", "overall": 81, "pace": 72, "shoot": 48, "pass": 65, "defend": 86, "stamina": 82 },
+        { "id": "bra1974_8", "name": "Valdomiro", "position": "ST", "overall": 79, "pace": 82, "shoot": 80, "pass": 68, "defend": 36, "stamina": 80 },
+        { "id": "bra1974_9", "name": "Dirceu", "position": "CM", "overall": 78, "pace": 76, "shoot": 72, "pass": 80, "defend": 62, "stamina": 82 },
+        { "id": "bra1974_10", "name": "Leão", "position": "GK", "overall": 83, "pace": 50, "shoot": 18, "pass": 55, "defend": 86, "stamina": 80 },
+        { "id": "bra1974_11", "name": "Carpegiani", "position": "CM", "overall": 77, "pace": 74, "shoot": 68, "pass": 78, "defend": 65, "stamina": 84 }
+      ]
+    },
+    {
+      "id": "cze1976",
+      "name": "Czechoslovakia",
+      "nationCode": "CZE",
+      "year": 1976,
+      "tournamentId": "ec1976",
+      "formation": "4-4-2",
+      "players": [
+        { "id": "panenka", "name": "Antonín Panenka", "position": "CM", "overall": 86, "pace": 76, "shoot": 82, "pass": 88, "defend": 58, "stamina": 84 },
+        { "id": "masny", "name": "Zdeněk Nehoda", "position": "RW", "overall": 84, "pace": 88, "shoot": 78, "pass": 76, "defend": 40, "stamina": 86 },
+        { "id": "cze1976_3", "name": "Ivo Viktor", "position": "GK", "overall": 85, "pace": 48, "shoot": 18, "pass": 52, "defend": 88, "stamina": 82 },
+        { "id": "cze1976_4", "name": "Anton Ondruš", "position": "CB", "overall": 86, "pace": 72, "shoot": 52, "pass": 68, "defend": 90, "stamina": 84 },
+        { "id": "cze1976_5", "name": "Ján Pivarník", "position": "RB", "overall": 80, "pace": 82, "shoot": 55, "pass": 72, "defend": 78, "stamina": 84 },
+        { "id": "cze1976_6", "name": "Karol Dobiaš", "position": "CM", "overall": 82, "pace": 78, "shoot": 72, "pass": 82, "defend": 68, "stamina": 86 },
+        { "id": "cze1976_7", "name": "Marian Masny", "position": "LW", "overall": 81, "pace": 86, "shoot": 76, "pass": 74, "defend": 42, "stamina": 84 },
+        { "id": "cze1976_8", "name": "Zdeněk Nehoda", "position": "ST", "overall": 83, "pace": 84, "shoot": 82, "pass": 70, "defend": 38, "stamina": 82 },
+        { "id": "cze1976_9", "name": "Jozef Móder", "position": "CM", "overall": 79, "pace": 74, "shoot": 70, "pass": 80, "defend": 65, "stamina": 84 },
+        { "id": "cze1976_10", "name": "Ladislav Jurkemik", "position": "CB", "overall": 78, "pace": 70, "shoot": 45, "pass": 65, "defend": 84, "stamina": 82 },
+        { "id": "cze1976_11", "name": "František Veselý", "position": "ST", "overall": 80, "pace": 80, "shoot": 80, "pass": 68, "defend": 36, "stamina": 80 }
+      ]
+    },
+    {
+      "id": "frg1976",
+      "name": "West Germany",
+      "nationCode": "FRG",
+      "year": 1976,
+      "tournamentId": "ec1976",
+      "formation": "4-4-2",
+      "players": [
+        { "id": "frg1976_1", "name": "Sepp Maier", "position": "GK", "overall": 88, "pace": 52, "shoot": 18, "pass": 58, "defend": 90, "stamina": 82 },
+        { "id": "frg1976_2", "name": "Franz Beckenbauer", "position": "SW", "overall": 92, "pace": 76, "shoot": 70, "pass": 92, "defend": 90, "stamina": 86 },
+        { "id": "frg1976_3", "name": "Erich Beer", "position": "ST", "overall": 82, "pace": 78, "shoot": 84, "pass": 70, "defend": 38, "stamina": 80 },
+        { "id": "frg1976_4", "name": "Dieter Müller", "position": "ST", "overall": 84, "pace": 82, "shoot": 86, "pass": 68, "defend": 36, "stamina": 82 },
+        { "id": "frg1976_5", "name": "Rainer Bonhof", "position": "CM", "overall": 83, "pace": 80, "shoot": 76, "pass": 84, "defend": 62, "stamina": 86 },
+        { "id": "frg1976_6", "name": "Heinz Flohe", "position": "CM", "overall": 81, "pace": 76, "shoot": 74, "pass": 80, "defend": 68, "stamina": 86 },
+        { "id": "frg1976_7", "name": "Hans-Georg Schwarzenbeck", "position": "CB", "overall": 82, "pace": 70, "shoot": 48, "pass": 65, "defend": 88, "stamina": 86 },
+        { "id": "frg1976_8", "name": "Manfred Kaltz", "position": "RB", "overall": 80, "pace": 84, "shoot": 58, "pass": 72, "defend": 76, "stamina": 84 },
+        { "id": "frg1976_9", "name": "Karl-Heinz Rummenigge", "position": "ST", "overall": 82, "pace": 86, "shoot": 82, "pass": 72, "defend": 38, "stamina": 82 },
+        { "id": "frg1976_10", "name": "Bernd Hölzenbein", "position": "LW", "overall": 81, "pace": 88, "shoot": 76, "pass": 72, "defend": 40, "stamina": 84 },
+        { "id": "frg1976_11", "name": "Wolfgang Overath", "position": "CM", "overall": 82, "pace": 70, "shoot": 68, "pass": 88, "defend": 65, "stamina": 80 }
+      ]
+    },
+    {
+      "id": "ned1976",
+      "name": "Netherlands",
+      "nationCode": "NED",
+      "year": 1976,
+      "tournamentId": "ec1976",
+      "formation": "4-3-3",
+      "players": [
+        { "id": "ned1976_1", "name": "Johan Cruyff", "position": "CF", "overall": 93, "pace": 86, "shoot": 88, "pass": 94, "defend": 45, "stamina": 86 },
+        { "id": "ned1976_2", "name": "Johnny Rep", "position": "RW", "overall": 85, "pace": 90, "shoot": 80, "pass": 76, "defend": 40, "stamina": 84 },
+        { "id": "ned1976_3", "name": "Rob Rensenbrink", "position": "LW", "overall": 84, "pace": 84, "shoot": 82, "pass": 78, "defend": 38, "stamina": 80 },
+        { "id": "ned1976_4", "name": "Johan Neeskens", "position": "CM", "overall": 86, "pace": 78, "shoot": 76, "pass": 86, "defend": 72, "stamina": 88 },
+        { "id": "ned1976_5", "name": "Ruud Krol", "position": "CB", "overall": 83, "pace": 74, "shoot": 52, "pass": 80, "defend": 88, "stamina": 84 },
+        { "id": "ned1976_6", "name": "Wim Jansen", "position": "CM", "overall": 79, "pace": 70, "shoot": 64, "pass": 80, "defend": 70, "stamina": 82 },
+        { "id": "ned1976_7", "name": "Jan Jongbloed", "position": "GK", "overall": 79, "pace": 48, "shoot": 18, "pass": 52, "defend": 80, "stamina": 76 },
+        { "id": "ned1976_8", "name": "Wim Suurbier", "position": "RB", "overall": 78, "pace": 80, "shoot": 55, "pass": 74, "defend": 74, "stamina": 82 },
+        { "id": "ned1976_9", "name": "Ruud Geels", "position": "ST", "overall": 77, "pace": 78, "shoot": 78, "pass": 62, "defend": 35, "stamina": 76 },
+        { "id": "ned1976_10", "name": "Arie Haan", "position": "CM", "overall": 80, "pace": 72, "shoot": 70, "pass": 82, "defend": 66, "stamina": 84 },
+        { "id": "ned1976_11", "name": "Wim van Hanegem", "position": "CM", "overall": 82, "pace": 68, "shoot": 72, "pass": 88, "defend": 60, "stamina": 80 }
+      ]
+    },
+    {
+      "id": "yug1976",
+      "name": "Yugoslavia",
+      "nationCode": "YUG",
+      "year": 1976,
+      "tournamentId": "ec1976",
+      "formation": "4-4-2",
+      "players": [
+        { "id": "yug1976_1", "name": "Dragan Džajić", "position": "LW", "overall": 86, "pace": 88, "shoot": 82, "pass": 80, "defend": 42, "stamina": 84 },
+        { "id": "yug1976_2", "name": "Dušan Bajević", "position": "ST", "overall": 84, "pace": 84, "shoot": 86, "pass": 72, "defend": 38, "stamina": 82 },
+        { "id": "yug1976_3", "name": "Ilija Petković", "position": "CM", "overall": 82, "pace": 76, "shoot": 72, "pass": 84, "defend": 65, "stamina": 84 },
+        { "id": "yug1976_4", "name": "Josip Katalinski", "position": "CB", "overall": 83, "pace": 72, "shoot": 48, "pass": 68, "defend": 86, "stamina": 84 },
+        { "id": "yug1976_5", "name": "Enver Marić", "position": "GK", "overall": 81, "pace": 48, "shoot": 18, "pass": 50, "defend": 84, "stamina": 80 },
+        { "id": "yug1976_6", "name": "Vladimir Petrović", "position": "CM", "overall": 80, "pace": 78, "shoot": 70, "pass": 82, "defend": 62, "stamina": 84 },
+        { "id": "yug1976_7", "name": "Branko Oblak", "position": "CM", "overall": 81, "pace": 74, "shoot": 72, "pass": 84, "defend": 60, "stamina": 82 },
+        { "id": "yug1976_8", "name": "Safet Sušić", "position": "RW", "overall": 78, "pace": 84, "shoot": 76, "pass": 74, "defend": 40, "stamina": 82 },
+        { "id": "yug1976_9", "name": "Miroslav Pavlović", "position": "CB", "overall": 79, "pace": 70, "shoot": 45, "pass": 62, "defend": 84, "stamina": 82 },
+        { "id": "yug1976_10", "name": "Zlatko Krmpotić", "position": "RB", "overall": 77, "pace": 78, "shoot": 52, "pass": 70, "defend": 76, "stamina": 84 },
+        { "id": "yug1976_11", "name": "Dušan Nikolić", "position": "ST", "overall": 78, "pace": 80, "shoot": 78, "pass": 66, "defend": 36, "stamina": 80 }
+      ]
+    }
+  ]
+}
