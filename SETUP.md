@@ -1,5 +1,12 @@
 # Step 2 — Open & Play in Unity
 
+## Play now (native macOS — no Unity required)
+```bash
+cd ~/Desktop/football-china-2050
+./tools/run-native.sh
+```
+Pick teams → **Play Match**. Full windowed app, not a browser.
+
 ## If Unity Editor is still installing
 Unity Hub → **Installs** → wait for **2022.3 LTS** to finish.
 
@@ -23,7 +30,7 @@ This creates `MainMenu`, `TeamSelect`, and `Match` scenes and adds them to Build
 - **iOS:** Switch to iOS → Build → open in Xcode → Run on simulator/device
 
 ## Play now (no Unity)
-Browser version (already running if server started):
+Browser version (optional):
 ```bash
 cd ~/Desktop/football-china-2050
 python3 -m http.server 8765

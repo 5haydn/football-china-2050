@@ -27,8 +27,10 @@ sysinfo.txt
 *.app
 crashlytics-build.properties
 
-# macOS
-.DS_Store
+# SwiftPM (native macOS demo)
+tools/RetroFootballMac/.build/
+.swiftpm/
+
 .AppleDouble
 .LSOverride
 

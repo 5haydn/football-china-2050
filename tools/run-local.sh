@@ -28,9 +28,10 @@ if [[ -z "${UNITY_BIN:-}" ]]; then
   if [[ ! -f "$UNITY_PKG" ]]; then
     curl -L --progress-bar -o "$UNITY_PKG" "$UNITY_URL"
   fi
-  echo "Installing Unity Editor (may take a few minutes)..."
-  sudo installer -pkg "$UNITY_PKG" -target /
-  UNITY_BIN="$(find_unity || true)"
+  echo "Opening Unity installer (enter password in the GUI)..."
+  open "$UNITY_PKG"
+  echo "After install completes, re-run: $ROOT/tools/run-local.sh"
+  exit 0
 fi
 
 if [[ -z "${UNITY_BIN:-}" ]]; then
