@@ -57,36 +57,38 @@ namespace RetroFootball76.Match
             var def = SquadPower(defend, shootWeight: 0.15f, passWeight: 0.25f, defendWeight: 0.6f);
             var roll = _rng.NextDouble() * (atk + def);
             var shooter = PickPlayer(attack, preferShoot: true);
+            var spot = RandomPitchSpot(attack);
 
             if (roll < atk * 0.12)
             {
-                Score(attack, shooter);
+                Score(attack, shooter, spot);
             }
             else if (roll < atk * 0.35)
             {
                 AddEvent(_state.minute, MatchEventType.Shot, attack.id, shooter?.name,
-                    $"{shooter?.name} shoots — saved!");
+                    $"{shooter?.name} shoots — saved!", spot.x, spot.y);
                 AddEvent(_state.minute, MatchEventType.Save, defend.id, PickPlayer(defend, preferShoot: false)?.name,
-                    "Great save!");
+                    "Great save!", spot.x * 0.5f, spot.y * 0.6f);
             }
             else if (roll < atk * 0.55)
             {
-                AddEvent(_state.minute, MatchEventType.Turnover, defend.id, null, $"{defend.name} win the ball.");
+                AddEvent(_state.minute, MatchEventType.Turnover, defend.id, null,
+                    $"{defend.name} win the ball.", spot.x * 0.3f, spot.y * 0.3f);
             }
             else
             {
                 AddEvent(_state.minute, MatchEventType.Shot, attack.id, shooter?.name,
-                    $"{shooter?.name} — shot wide.");
+                    $"{shooter?.name} — shot wide.", spot.x, spot.y);
             }
         }
 
-        void Score(TeamData team, PlayerData scorer)
+        void Score(TeamData team, PlayerData scorer, (float x, float y) spot)
         {
             if (team.id == _state.homeTeam.id) _state.homeScore++;
             else _state.awayScore++;
 
             AddEvent(_state.minute, MatchEventType.Goal, team.id, scorer?.name,
-                $"GOAL! {scorer?.name} ({team.name}) {_state.homeScore}-{_state.awayScore}");
+                $"GOAL! {scorer?.name} ({team.name}) {_state.homeScore}-{_state.awayScore}", spot.x, spot.y);
         }
 
         static float SquadPower(TeamData team, float shootWeight, float passWeight, float defendWeight)
@@ -107,7 +109,8 @@ namespace RetroFootball76.Match
             return squad[0];
         }
 
-        void AddEvent(int minute, MatchEventType type, string teamId, string player, string desc)
+        void AddEvent(int minute, MatchEventType type, string teamId, string player, string desc,
+            float pitchX = 0f, float pitchY = 0f)
         {
             _state.events.Add(new MatchEvent
             {
@@ -115,8 +118,20 @@ namespace RetroFootball76.Match
                 type = type,
                 teamId = teamId,
                 playerName = player,
-                description = desc
+                description = desc,
+                pitchX = pitchX,
+                pitchY = pitchY
             });
+        }
+
+        (float x, float y) RandomPitchSpot(TeamData attack)
+        {
+            var attackingAway = attack.id == _state.awayTeam.id;
+            var y = attackingAway
+                ? 0.12f + (float)_rng.NextDouble() * 0.32f
+                : -0.12f - (float)_rng.NextDouble() * 0.32f;
+            var x = (float)(_rng.NextDouble() - 0.5) * 0.7f;
+            return (x, y);
         }
     }
 }

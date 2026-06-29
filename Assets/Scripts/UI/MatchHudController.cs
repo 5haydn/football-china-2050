@@ -12,9 +12,6 @@ namespace RetroFootball76.UI
         [SerializeField] TMP_Text logText;
         [SerializeField] UnityEngine.UI.Button menuButton;
 
-        float _timer;
-        const float EventInterval = 0.4f;
-
         void Start()
         {
             if (menuButton != null)
@@ -23,28 +20,24 @@ namespace RetroFootball76.UI
             RefreshScore();
         }
 
-        void Update()
+        public void Wire(TMP_Text score, TMP_Text log, UnityEngine.UI.Button menu)
         {
-            if (matchController == null) return;
-            _timer += Time.deltaTime;
-            if (_timer < EventInterval) return;
-            _timer = 0f;
-
-            if (matchController.TryGetNextEvent(out var evt))
-            {
-                AppendLog($"[{evt.minute}'] {evt.description}");
-                RefreshScore();
-            }
+            scoreText = score;
+            logText = log;
+            menuButton = menu;
+            if (menuButton != null)
+                menuButton.onClick.AddListener(() => GameBootstrap.LoadScene(GameConstants.SceneMainMenu));
         }
 
-        void RefreshScore()
+        public void RefreshScore()
         {
-            var state = matchController?.CurrentState;
+            var mc = matchController != null ? matchController : FindObjectOfType<MatchController>();
+            var state = mc?.CurrentState;
             if (state == null || scoreText == null) return;
             scoreText.text = $"{state.homeTeam.name}  {state.homeScore}  -  {state.awayScore}  {state.awayTeam.name}";
         }
 
-        void AppendLog(string line)
+        public void AppendLog(string line)
         {
             if (logText == null) return;
             logText.text = string.IsNullOrEmpty(logText.text) ? line : logText.text + "\n" + line;

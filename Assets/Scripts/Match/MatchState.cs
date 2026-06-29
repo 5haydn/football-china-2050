@@ -23,6 +23,9 @@ namespace RetroFootball76.Match
         public string teamId;
         public string playerName;
         public string description;
+        /// <summary>Normalized pitch position (-0.5..0.5) for 2.5D ball animation.</summary>
+        public float pitchX;
+        public float pitchY;
     }
 
     [Serializable]

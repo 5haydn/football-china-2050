@@ -27,4 +27,6 @@ struct MatchEvent: Identifiable {
   let text: String
   let isGoal: Bool
   let isHalf: Bool
+  let pitchX: CGFloat
+  let pitchY: CGFloat
 }

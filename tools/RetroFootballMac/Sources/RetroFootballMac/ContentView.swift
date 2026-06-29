@@ -9,17 +9,22 @@ struct ContentView: View {
   @State private var awayScore = 0
   @State private var playing = false
   @State private var error: String?
+  @State private var ballX: CGFloat = 0
+  @State private var ballY: CGFloat = 0
+  @State private var ballHeight: CGFloat = 0
 
   private let bg = Color(red: 0.06, green: 0.11, blue: 0.14)
   private let card = Color(red: 0.12, green: 0.18, blue: 0.24)
   private let accent = Color(red: 0.0, green: 0.83, blue: 0.67)
   private let gold = Color(red: 0.94, green: 0.63, blue: 0.25)
+  private let homeColor = Color(red: 0.95, green: 0.25, blue: 0.2)
+  private let awayColor = Color(red: 0.2, green: 0.55, blue: 0.95)
 
   var body: some View {
-    VStack(spacing: 16) {
+    VStack(spacing: 12) {
       Text("⚽ Retro Football '76")
         .font(.title2.bold())
-      Text("1974 World Cup · 1976 Euro")
+      Text("3D match view · 1974 / 1976")
         .font(.caption)
         .foregroundStyle(.secondary)
 
@@ -33,6 +38,17 @@ struct ContentView: View {
       }
 
       scoreboard
+
+      Pitch3DSceneView(
+        homeColor: NSColor(red: 0.95, green: 0.25, blue: 0.2, alpha: 1),
+        awayColor: NSColor(red: 0.2, green: 0.55, blue: 0.95, alpha: 1),
+        ballX: ballX,
+        ballY: ballY,
+        ballHeight: ballHeight
+      )
+      .frame(height: 260)
+      .background(card)
+      .clipShape(RoundedRectangle(cornerRadius: 10))
 
       ScrollViewReader { proxy in
         ScrollView {
@@ -52,7 +68,7 @@ struct ContentView: View {
           }
           .padding(12)
         }
-        .frame(height: 300)
+        .frame(height: 140)
         .background(Color.black.opacity(0.35))
         .clipShape(RoundedRectangle(cornerRadius: 8))
         .onChange(of: events.count) { _, _ in
@@ -73,7 +89,7 @@ struct ContentView: View {
       .disabled(playing || teams.isEmpty || homeId == awayId)
     }
     .padding(24)
-    .frame(minWidth: 480, minHeight: 580)
+    .frame(minWidth: 520, minHeight: 680)
     .background(bg)
     .task { loadTeams() }
   }
@@ -93,10 +109,10 @@ struct ContentView: View {
   private var scoreboard: some View {
     let home = teams.first { $0.id == homeId }
     let away = teams.first { $0.id == awayId }
-  return Text("\(home?.name ?? "—")  \(homeScore)  –  \(awayScore)  \(away?.name ?? "—")")
-      .font(.title.bold())
+    return Text("\(home?.name ?? "—")  \(homeScore)  –  \(awayScore)  \(away?.name ?? "—")")
+      .font(.title3.bold())
       .multilineTextAlignment(.center)
-      .padding()
+      .padding(.vertical, 10)
       .frame(maxWidth: .infinity)
       .background(card)
       .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -118,6 +134,9 @@ struct ContentView: View {
     events = []
     homeScore = 0
     awayScore = 0
+    ballX = 0
+    ballY = 0
+    ballHeight = 0
 
     let result = MatchSimulator.simulate(home: home, away: away, seed: UInt64(Date().timeIntervalSince1970))
 
@@ -125,6 +144,7 @@ struct ContentView: View {
       for event in result.events {
         try? await Task.sleep(for: .milliseconds(450))
         events.append(event)
+        await animateBall(toX: event.pitchX, toY: event.pitchY, isGoal: event.isGoal)
         if event.text.hasPrefix("GOAL!") || event.minute == 90 {
           if let score = event.text.range(of: #"\d+-\d+"#, options: .regularExpression) {
             let parts = event.text[score].split(separator: "-")
@@ -139,5 +159,21 @@ struct ContentView: View {
       awayScore = result.awayScore
       playing = false
     }
+  }
+
+  private func animateBall(toX: CGFloat, toY: CGFloat, isGoal: Bool) async {
+    let peak: CGFloat = isGoal ? 1.2 : 0.5
+    let steps = 8
+    let startX = ballX
+    let startY = ballY
+    for i in 1...steps {
+      let t = CGFloat(i) / CGFloat(steps)
+      let eased = t
+      ballX = startX + (toX - startX) * eased
+      ballY = startY + (toY - startY) * eased
+      ballHeight = sin(t * .pi) * peak
+      try? await Task.sleep(for: .milliseconds(25))
+    }
+    ballHeight = 0
   }
 }

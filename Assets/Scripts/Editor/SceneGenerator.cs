@@ -50,15 +50,67 @@ namespace RetroFootball76.Editor
 
         static void CreateMatch()
         {
-            var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            var bootstrap = new GameObject("MatchSceneBootstrap");
+            bootstrap.AddComponent<RetroFootball76.Visual.MatchSceneBootstrap>();
+
             var root = new GameObject("MatchRoot");
-            var mc = root.AddComponent<MatchController>();
-            BuildCanvas(scene, "MatchHud", go =>
-            {
-                var hud = go.AddComponent<MatchHudController>();
-                // Wire via inspector after generation if needed
-            });
+            root.AddComponent<MatchController>();
+
+            BuildMatchHud(scene);
             SaveScene("Assets/Scenes/Match.unity");
+        }
+
+        static void BuildMatchHud(Scene scene)
+        {
+            var canvasGo = new GameObject("Canvas");
+            var canvas = canvasGo.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasGo.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasGo.AddComponent<GraphicRaycaster>();
+
+            if (Object.FindObjectOfType<UnityEngine.EventSystems.EventSystem>() == null)
+            {
+                var es = new GameObject("EventSystem");
+                es.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                es.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+            }
+
+            var hud = new GameObject("MatchHud");
+            hud.transform.SetParent(canvasGo.transform, false);
+            var hudRect = hud.AddComponent<RectTransform>();
+            hudRect.anchorMin = new Vector2(0, 0);
+            hudRect.anchorMax = new Vector2(1, 0.28f);
+            hudRect.offsetMin = Vector2.zero;
+            hudRect.offsetMax = Vector2.zero;
+            hud.AddComponent<UnityEngine.UI.Image>().color = new Color(0.06f, 0.1f, 0.14f, 0.92f);
+
+            var hudCtrl = hud.AddComponent<MatchHudController>();
+
+            var score = CreateText(hud.transform, "", 28, new Vector2(0, 60));
+            score.name = "ScoreText";
+            score.alignment = TextAlignmentOptions.Center;
+            var scoreRect = score.GetComponent<RectTransform>();
+            scoreRect.sizeDelta = new Vector2(900, 50);
+
+            var log = CreateText(hud.transform, "", 16, new Vector2(0, -20));
+            log.name = "LogText";
+            log.alignment = TextAlignmentOptions.TopLeft;
+            var logRect = log.GetComponent<RectTransform>();
+            logRect.sizeDelta = new Vector2(900, 140);
+
+            var menuBtn = new GameObject("MenuButton");
+            menuBtn.transform.SetParent(hud.transform, false);
+            var btnRect = menuBtn.AddComponent<RectTransform>();
+            btnRect.anchoredPosition = new Vector2(-420, 60);
+            btnRect.sizeDelta = new Vector2(120, 36);
+            var btn = menuBtn.AddComponent<UnityEngine.UI.Button>();
+            menuBtn.AddComponent<UnityEngine.UI.Image>().color = new Color(0.2f, 0.75f, 0.6f);
+            var btnLabel = CreateText(menuBtn.transform, "Menu", 18, Vector2.zero);
+            btnLabel.alignment = TextAlignmentOptions.Center;
+
+            hudCtrl.Wire(score, log, btn);
         }
 
         static void BuildCanvas(Scene scene, string controllerName, System.Action<GameObject> configure)

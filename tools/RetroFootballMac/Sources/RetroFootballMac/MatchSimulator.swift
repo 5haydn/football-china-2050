@@ -21,12 +21,24 @@ enum MatchSimulator {
       return Double(rng & 0x7fffffff) / Double(0x7fffffff)
     }
 
-    events.append(MatchEvent(minute: 0, text: "\(home.name) vs \(away.name) — kickoff!", isGoal: false, isHalf: false))
+    func spot(attack: Team) -> (CGFloat, CGFloat) {
+      let awayAttack = attack.id != home.id
+      let y: CGFloat = awayAttack
+        ? CGFloat(0.12 + rand() * 0.32)
+        : CGFloat(-0.12 - rand() * 0.32)
+      let x = CGFloat(rand() - 0.5) * 0.7
+      return (x, y)
+    }
+
+    events.append(MatchEvent(
+      minute: 0, text: "\(home.name) vs \(away.name) — kickoff!",
+      isGoal: false, isHalf: false, pitchX: 0, pitchY: 0
+    ))
 
     for phase in 0..<phases {
       let minute = min(90, Int(Double(phase + 1) / Double(phases) * 90))
       if phase == phases / 2 {
-        events.append(MatchEvent(minute: minute, text: "Half time.", isGoal: false, isHalf: true))
+        events.append(MatchEvent(minute: minute, text: "Half time.", isGoal: false, isHalf: true, pitchX: 0, pitchY: 0))
       }
 
       let attack = rand() > 0.5 ? home : away
@@ -35,29 +47,37 @@ enum MatchSimulator {
       let def = power(defend, sw: 0.15, pw: 0.25, dw: 0.6)
       let roll = rand() * (atk + def)
       let shooter = pick(attack, shoot: true)
+      let (px, py) = spot(attack: attack)
 
       if roll < atk * 0.12 {
         if attack.id == home.id { homeScore += 1 } else { awayScore += 1 }
         events.append(MatchEvent(
           minute: minute,
           text: "GOAL! \(shooter.name) (\(attack.name)) \(homeScore)-\(awayScore)",
-          isGoal: true,
-          isHalf: false
+          isGoal: true, isHalf: false, pitchX: px, pitchY: py
         ))
       } else if roll < atk * 0.35 {
-        events.append(MatchEvent(minute: minute, text: "\(shooter.name) shoots — saved!", isGoal: false, isHalf: false))
+        events.append(MatchEvent(
+          minute: minute, text: "\(shooter.name) shoots — saved!",
+          isGoal: false, isHalf: false, pitchX: px, pitchY: py
+        ))
       } else if roll < atk * 0.55 {
-        events.append(MatchEvent(minute: minute, text: "\(defend.name) win the ball.", isGoal: false, isHalf: false))
+        events.append(MatchEvent(
+          minute: minute, text: "\(defend.name) win the ball.",
+          isGoal: false, isHalf: false, pitchX: px * 0.3, pitchY: py * 0.3
+        ))
       } else {
-        events.append(MatchEvent(minute: minute, text: "\(shooter.name) — shot wide.", isGoal: false, isHalf: false))
+        events.append(MatchEvent(
+          minute: minute, text: "\(shooter.name) — shot wide.",
+          isGoal: false, isHalf: false, pitchX: px, pitchY: py
+        ))
       }
     }
 
     events.append(MatchEvent(
       minute: 90,
       text: "Full time: \(home.name) \(homeScore) - \(awayScore) \(away.name)",
-      isGoal: true,
-      isHalf: false
+      isGoal: true, isHalf: false, pitchX: 0, pitchY: 0
     ))
 
     return MatchResult(events: events, homeScore: homeScore, awayScore: awayScore)
