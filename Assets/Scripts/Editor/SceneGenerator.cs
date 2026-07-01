@@ -156,9 +156,20 @@ namespace RetroFootball76.Editor
             var scoreBar = UiTheme.CreatePanel(hud.transform, "ScoreBar", new Vector2(0.05f, 0.55f), new Vector2(0.95f, 0.95f));
             scoreBar.GetComponent<Image>().color = new Color(0.08f, 0.12f, 0.17f, 0.98f);
 
+            var clock = UiTheme.CreateLabel(scoreBar.transform, "0'", 22, UiTheme.Gold, TextAlignmentOptions.Left);
+            SetRect(clock, new Vector2(-360, 0), new Vector2(80, 36));
+            clock.fontStyle = FontStyles.Bold;
+
             var score = UiTheme.CreateLabel(scoreBar.transform, "—  0 - 0  —", 30, UiTheme.Cream, TextAlignmentOptions.Center);
             SetRect(score, Vector2.zero, new Vector2(800, 50));
             score.fontStyle = FontStyles.Bold;
+
+            var banner = UiTheme.CreatePanel(hud.transform, "GoalBanner", new Vector2(0.25f, 0.72f), new Vector2(0.75f, 0.92f));
+            banner.GetComponent<Image>().color = new Color(0.96f, 0.72f, 0.28f, 0.95f);
+            var bannerText = UiTheme.CreateLabel(banner.transform, "GOAL!", 28, Color.black, TextAlignmentOptions.Center);
+            SetRect(bannerText, Vector2.zero, new Vector2(600, 44));
+            bannerText.fontStyle = FontStyles.Bold;
+            banner.SetActive(false);
 
             var feedLabel = UiTheme.CreateLabel(hud.transform, "MATCH FEED", 11, UiTheme.Muted, TextAlignmentOptions.Left);
             SetRect(feedLabel, new Vector2(-380, 55), new Vector2(120, 20));
@@ -174,7 +185,7 @@ namespace RetroFootball76.Editor
             var hints = UiTheme.CreateLabel(hud.transform, "Esc — Main Menu", 12, UiTheme.Muted, TextAlignmentOptions.Right);
             SetRect(hints, new Vector2(380, -55), new Vector2(160, 20));
 
-            hudCtrl.Wire(score, log, menuBtn);
+            hudCtrl.Wire(score, clock, log, menuBtn, bannerText, banner.GetComponent<Image>());
         }
 
         static GameObject CreateDropdown(Transform parent, string name)

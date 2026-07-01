@@ -38,6 +38,8 @@ namespace RetroFootball76.Visual
 
             presenter.matchController = match;
             presenter.pitch3D = pitch;
+            presenter.hud = FindObjectOfType<MatchHudController>();
+            presenter.camera3D = FindObjectOfType<PitchCamera3D>();
         }
     }
 }

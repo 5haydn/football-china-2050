@@ -7,5 +7,14 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Boot.unity
-    guid: b00t0000000000000000000000000001
+    guid: 1538d7428225246b49213ebb594bc4c1
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: dbbff65eac8794982805e05b83f44733
+  - enabled: 1
+    path: Assets/Scenes/TeamSelect.unity
+    guid: d433cc847a12f4198936806f50799c2c
+  - enabled: 1
+    path: Assets/Scenes/Match.unity
+    guid: 1969d9b3b4194475c949ab7842db03af
   m_configObjects: {}
